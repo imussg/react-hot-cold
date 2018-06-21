@@ -10,6 +10,7 @@ export default class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this.number = Math.ceil(Math.random() * 100);
+		console.log(this.number);
 		this.temperature = {
 			freezing: 40,
 			cold: 30,
@@ -26,7 +27,6 @@ export default class Game extends React.Component {
 
 	onGuessSubmit(e) {
 		e.preventDefault();
-		console.log(this.temperature);
 		const guess = document.getElementById("userGuess").value;
 		let gameOver = false;
 		if(guess !== "" && Number(guess)) {
@@ -34,7 +34,7 @@ export default class Game extends React.Component {
 			let feedback = '';
 			if(range === 0) {
 				feedback = `You guessed the number ${this.number}!
-				It took you ${this.state.guesses.length} guesses`;
+				It took you ${this.state.guesses.length+1} guesses`;
 				gameOver = true;
 			} else if(range <= this.temperature.burning) {
 				feedback = `You're burning up!!`;
@@ -57,20 +57,12 @@ export default class Game extends React.Component {
 	}
 
     render() {
-    	// if there have been guesses
-    	if(this.state.guesses.length !== 0) {
-    		// if the last guess equals the number
-    		if(this.state.guesses[this.state.guesses.length-1] === this.number) {
-
-    		}
-    	}
     	return (
 	        <div>
 	            <Header />
 	            <GuessSection 
 	            	feedback={this.state.feedback} 
-	            	onSubmit={e => this.onGuessSubmit(e)} 
-	            	noMoreGuesses={this.state.gameOver}/>
+	            	onSubmit={e => this.onGuessSubmit(e)} />
 	            <GuessCount count={this.state.guesses.length} />
 	            <GuessList guesses={this.state.guesses} />
 	        </div>
