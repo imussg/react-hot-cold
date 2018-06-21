@@ -5,10 +5,10 @@ import GuessForm from './guess-form';
 import './guess-section.css';
 
 export default function GuessSection(props) {
-    return (
+    return ( 
         <section>
             <h2 id="feedback">{props.feedback}</h2>
-            <GuessForm />
+            <GuessForm onSubmit={e=>props.onSubmit(e)} />
         </section>
     );
 }
