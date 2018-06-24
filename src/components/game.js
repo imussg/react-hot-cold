@@ -50,7 +50,7 @@ export default class Game extends React.Component {
 
 			this.setState({
 				feedback,
-				guesses: this.state.guesses.concat(Number(guess)),
+				guesses: [...this.state.guesses, guess],
 				gameOver
 			});
 		}
