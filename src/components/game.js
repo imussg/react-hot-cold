@@ -1,11 +1,13 @@
 import React from 'react';
- 
+import { connect } from 'react-redux';
+import { submitGuess } from '../actions';
+
 import Header from './header';
 import GuessSection from './guess-section';
 import GuessCount  from './guess-count';
 import GuessList from './guess-list';
 
-export default class Game extends React.Component {
+export class Game extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -28,32 +30,33 @@ export default class Game extends React.Component {
 	onGuessSubmit(e) {
 		e.preventDefault();
 		const guess = document.getElementById("userGuess").value;
-		let gameOver = false;
-		if(guess !== "" && Number(guess)) {
-			const range = Math.abs(Number(guess) - this.number);
-			let feedback = '';
-			if(range === 0) {
-				feedback = `You guessed the number ${this.number}!
-				It took you ${this.state.guesses.length+1} guesses`;
-				gameOver = true;
-			} else if(range <= this.temperature.burning) {
-				feedback = `You're burning up!!`;
-			} else if(range <= this.temperature.hot) {
-				feedback = `You're hot!`;
-			} else if(range <= this.temperature.warm) {
-				feedback = `You're warm`;
-			} else if(range <= this.temperature.cold) {
-				feedback = `You're cold`;
-			} else {
-				feedback = `Brrrr! You're freezing!`;
-			}
+		props.dispatch(submitGuess(guess));
+		// let gameOver = false;
+		// if(guess !== "" && Number(guess)) {
+		// 	const range = Math.abs(Number(guess) - this.number);
+		// 	let feedback = '';
+		// 	if(range === 0) {
+		// 		feedback = `You guessed the number ${this.number}!
+		// 		It took you ${this.state.guesses.length+1} guesses`;
+		// 		gameOver = true;
+		// 	} else if(range <= this.temperature.burning) {
+		// 		feedback = `You're burning up!!`;
+		// 	} else if(range <= this.temperature.hot) {
+		// 		feedback = `You're hot!`;
+		// 	} else if(range <= this.temperature.warm) {
+		// 		feedback = `You're warm`;
+		// 	} else if(range <= this.temperature.cold) {
+		// 		feedback = `You're cold`;
+		// 	} else {
+		// 		feedback = `Brrrr! You're freezing!`;
+		// 	}
 
-			this.setState({
-				feedback,
-				guesses: [...this.state.guesses, guess],
-				gameOver
-			});
-		}
+		// 	this.setState({
+		// 		feedback,
+		// 		guesses: [...this.state.guesses, guess],
+		// 		gameOver
+		// 	});
+		// }
 	}
 
     render() {
@@ -61,12 +64,24 @@ export default class Game extends React.Component {
 	        <div>
 	            <Header />
 	            <GuessSection 
-	            	feedback={this.state.feedback} 
+	            	feedback={props.feedback} 
 	            	onSubmit={e => this.onGuessSubmit(e)} />
-	            <GuessCount count={this.state.guesses.length} />
-	            <GuessList guesses={this.state.guesses} />
+	            <GuessCount count={props.guesses.length} />
+	            <GuessList guesses={props.guesses} />
 	        </div>
     	);
     }
 }
 
+Board.defaultProps = {
+	feedback: "Make your guess!",
+	guesses: []
+};
+
+const mapStateToProps = state => ({
+	feedback: state.feedback,
+	guesses: [...state.guesses],
+	number: state.number
+});
+
+export default connect(mapStateToProps)(Game);
