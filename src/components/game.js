@@ -30,7 +30,7 @@ export class Game extends React.Component {
 	onGuessSubmit(e) {
 		e.preventDefault();
 		const guess = document.getElementById("userGuess").value;
-		props.dispatch(submitGuess(guess));
+		this.props.dispatch(submitGuess(guess));
 		// let gameOver = false;
 		// if(guess !== "" && Number(guess)) {
 		// 	const range = Math.abs(Number(guess) - this.number);
@@ -60,20 +60,21 @@ export class Game extends React.Component {
 	}
 
     render() {
+    	console.log(this.props.number);
     	return (
 	        <div>
 	            <Header />
 	            <GuessSection 
-	            	feedback={props.feedback} 
+	            	feedback={this.props.feedback} 
 	            	onSubmit={e => this.onGuessSubmit(e)} />
-	            <GuessCount count={props.guesses.length} />
-	            <GuessList guesses={props.guesses} />
+	            <GuessCount count={this.props.guesses.length} />
+	            <GuessList guesses={this.props.guesses} />
 	        </div>
     	);
     }
 }
 
-Board.defaultProps = {
+Game.defaultProps = {
 	feedback: "Make your guess!",
 	guesses: []
 };
