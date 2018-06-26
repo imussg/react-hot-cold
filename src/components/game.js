@@ -9,23 +9,23 @@ import GuessList from './guess-list';
 
 export class Game extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.number = Math.ceil(Math.random() * 100);
-		console.log(this.number);
-		this.temperature = {
-			freezing: 40,
-			cold: 30,
-			warm: 20,
-			hot: 10,
-			burning: 5
-		};
-		this.state = {
-			feedback: "Make your guess!",
-			guesses: [],
-			gameOver: false
-		};
-	}
+	// constructor(props) {
+	// 	super(props);
+	// 	this.number = Math.ceil(Math.random() * 100);
+	// 	console.log(this.number);
+	// 	this.temperature = {
+	// 		freezing: 40,
+	// 		cold: 30,
+	// 		warm: 20,
+	// 		hot: 10,
+	// 		burning: 5
+	// 	};
+	// 	this.state = {
+	// 		feedback: "Make your guess!",
+	// 		guesses: [],
+	// 		gameOver: false
+	// 	};
+	// }
 
 	onGuessSubmit(e) {
 		e.preventDefault();
